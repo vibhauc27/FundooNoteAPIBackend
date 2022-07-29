@@ -1,0 +1,65 @@
+﻿using BussinessLayer.Interface;
+using CommonLayer.Modal;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace FundooNoteAPI.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UserController : ControllerBase
+    {
+        private readonly IUserBL iuserBL;
+
+        public UserController(IUserBL iuserBL)
+        {
+            this.iuserBL = iuserBL;
+        }
+
+        [HttpPost]
+        [Route("Register")]
+        public IActionResult RegisterUser(UserRegistrationModal userRegistrationModal)
+        {
+            try
+            {
+                var result = iuserBL.Registartion(userRegistrationModal);
+                if (result != null)
+                {
+                    return Ok(new {success = true, message= "Registration successful", data = result});
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Registration unsuccessful" });
+
+                }
+            }
+            catch(System.Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpPost]
+        [Route("Login")]
+        public IActionResult LoginUser(UserLoginModal userLoginModal)
+        {
+            try
+            {
+                var result = iuserBL.Login(userLoginModal);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Login successful", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Login unsuccessful" });
+
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+    }
+}
