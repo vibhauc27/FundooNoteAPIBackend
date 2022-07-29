@@ -11,5 +11,7 @@ namespace BussinessLayer.Interface
         public UserEntity Registartion(UserRegistrationModal userRegistrationModal);
 
         public string Login(UserLoginModal userLoginModal);
+
+        public string ForgetPassword(string Email);
     }
 }
