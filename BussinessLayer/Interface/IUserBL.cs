@@ -16,5 +16,7 @@ namespace BussinessLayer.Interface
 
         public bool ResetLink(string email, string password, string confirmPassword);
 
+
+
     }
 }
