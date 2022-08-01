@@ -99,11 +99,11 @@ namespace FundooNoteAPI.Controllers
                 var result = iuserBL.ResetLink(Email, password, confirmPassword);
                 if (result != null)
                 {
-                    return Ok(new { success = true, message = "Email sent successful" });
+                    return Ok(new { success = true, message = "Reset Password Successful" });
                 }
                 else
                 {
-                    return BadRequest(new { success = false, message = "Reset email not sent unsuccessful" });
+                    return BadRequest(new { success = false, message = "Reset Password not sent" });
 
                 }
             }
