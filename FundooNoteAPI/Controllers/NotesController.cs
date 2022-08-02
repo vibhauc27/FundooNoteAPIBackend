@@ -21,7 +21,7 @@ namespace FundooNoteAPI.Controllers
         }
         [Authorize]
         [HttpPost]
-        [Route("Create")]
+        [Route("CreateNote")]
         public IActionResult CreateNote(NotesModal noteData)
         {
             try
@@ -38,6 +38,30 @@ namespace FundooNoteAPI.Controllers
             catch (Exception)
             {
                 // return this.NotFound(new ResponseModel<string> { Status = false, Message = ex.Message });
+                throw;
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("ReadNote")]
+        public IActionResult ReadNotes()
+        {
+            try
+            {
+                long userID = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userID").Value);
+                var result = iNotesBL.ReadNotes(userID);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Able to read the notes.", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Unable to read the notes." });
+                }
+            }
+            catch (System.Exception)
+            {
                 throw;
             }
         }
