@@ -10,6 +10,7 @@ namespace FundooNoteAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class NotesController : ControllerBase
     {
 
@@ -19,7 +20,7 @@ namespace FundooNoteAPI.Controllers
         {
             this.iNotesBL = iNotesBL;
         }
-        [Authorize]
+        
         [HttpPost]
         [Route("CreateNote")]
         public IActionResult CreateNote(NotesModal noteData)
@@ -42,7 +43,7 @@ namespace FundooNoteAPI.Controllers
             }
         }
 
-        [Authorize]
+        
         [HttpGet]
         [Route("ReadNote")]
         public IActionResult ReadNotes()
@@ -58,6 +59,29 @@ namespace FundooNoteAPI.Controllers
                 else
                 {
                     return BadRequest(new { success = false, message = "Unable to read the notes." });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpDelete]
+        [Route("DeleteNote")]
+        public IActionResult DeleteNotes(long NoteID)
+        {
+            try
+            {
+                long userID = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userID").Value);
+                var result = iNotesBL.DeleteNotes(userID, NoteID);
+                if (result != false)
+                {
+                    return Ok(new { success = true, message = "Note Deleted." });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Cannot delete note." });
                 }
             }
             catch (System.Exception)
