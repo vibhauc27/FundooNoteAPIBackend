@@ -9,88 +9,120 @@ using System.Text;
 
 namespace RepositoryLayer.Service
 {
-    public class NotesRL : INotesRL
-    {
-        private readonly FundooContext fundooContext;
-        public NotesRL(FundooContext fundooContext)
+        public class NotesRL : INotesRL
         {
-            this.fundooContext = fundooContext;
-
-
-
-        }
-        public NotesEntity AddNotes(NotesModal notesModel, long userId)
-        {
-            try
+            private readonly FundooContext fundooContext;
+            public NotesRL(FundooContext fundooContext)
             {
-                NotesEntity notesEntity = new NotesEntity();
-                var result = fundooContext.UserTable.FirstOrDefault(e => e.UserId == userId);
-                if (result != null)
+                this.fundooContext = fundooContext;
+
+
+
+            }
+            public NotesEntity AddNotes(NotesModal notesModal, long userId)
+            {
+                try
                 {
-                    notesEntity.Title = notesModel.Title;
-                    notesEntity.Description = notesModel.Description;
-                    notesEntity.Reminder = notesModel.Reminder;
-                    notesEntity.Colour = notesModel.Colour;
-                    notesEntity.Image = notesModel.Image;
-                    notesEntity.Archive = notesModel.Archive;
-                    notesEntity.Pin = notesModel.Pin;
-                    notesEntity.Trash = notesModel.Trash;
-                    notesEntity.Created = notesModel.Created;
-                    notesEntity.Edited = notesModel.Edited;
-                    notesEntity.UserId = userId;
-                    fundooContext.NotesTable.Add(notesEntity);
-                    fundooContext.SaveChanges();
-                    return notesEntity;
+                    NotesEntity notesEntity = new NotesEntity();
+                    var result = fundooContext.NotesTable.Where(e => e.UserId == userId);
+                    if (result != null)
+                    {
+                        notesEntity.UserId = userId;
+                        notesEntity.Title = notesModal.Title;
+                        notesEntity.Description = notesModal.Description;
+                        notesEntity.Reminder = notesModal.Reminder;
+                        notesEntity.Colour = notesModal.Colour;
+                        notesEntity.Image = notesModal.Image;
+                        notesEntity.Archive = notesModal.Archive;
+                        notesEntity.Pin = notesModal.Pin;
+                        notesEntity.Trash = notesModal.Trash;
+                        notesEntity.Created = notesModal.Created;
+                        notesEntity.Edited = notesModal.Edited;
+
+                        fundooContext.NotesTable.Add(notesEntity);
+                        fundooContext.SaveChanges();
+                        return notesEntity;
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    return null;
+
+                    throw;
                 }
-            }
-            catch (Exception)
-            {
 
-                throw;
             }
 
-        }
-
-        public IEnumerable<NotesEntity> ReadNotes(long userId)
-        {
-            try
+            public IEnumerable<NotesEntity> ReadNotes(long userId)
             {
-                var result = this.fundooContext.NotesTable.Where(x => x.UserId == userId);
-                return result;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public bool DeleteNotes(long userId, long noteId)
-        {
-            try
-            {
-
-                var result = fundooContext.NotesTable.Where(x => x.UserId == userId && x.NoteID == noteId).FirstOrDefault();
-                if (result != null)
+                try
                 {
-                    fundooContext.NotesTable.Remove(result);
-                    this.fundooContext.SaveChanges();
-                    return true;
+                    var result = this.fundooContext.NotesTable.Where(e => e.UserId == userId);
+                    return result;
                 }
-                else
+
+                catch (Exception)
                 {
-                    return false;
+
+                    throw;
+                }
+
+            }
+
+            public bool DeleteNotes(long userId, long noteId)
+            {
+                try
+                {
+
+                    var result = fundooContext.NotesTable.Where(e => e.UserId == userId && e.NoteID == noteId).FirstOrDefault();
+                    if (result != null)
+                    {
+                        fundooContext.NotesTable.Remove(result);
+                        this.fundooContext.SaveChanges();
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
                 }
             }
-            catch (Exception)
+            public NotesEntity UpdateNote(NotesModal noteModal, long NoteId, long userId)
             {
-                throw;
+                try
+                {
+                    var result = fundooContext.NotesTable.Where(note => note.UserId == userId && note.NoteID == NoteId).FirstOrDefault();
+                    if (result != null)
+                    {
+                        result.Title = noteModal.Title;
+                        result.Description = noteModal.Description;
+                        result.Reminder = noteModal.Reminder;
+                        result.Edited = DateTime.Now;
+                        result.Colour = noteModal.Colour;
+                        result.Image = noteModal.Image;
+
+                        this.fundooContext.SaveChanges();
+                        return result;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
             }
         }
-
-
-    }
 }
+
+
+

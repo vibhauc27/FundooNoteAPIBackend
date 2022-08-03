@@ -8,15 +8,9 @@ namespace BussinessLayer.Interface
 {
     public interface IUserBL
     {
-        public UserEntity Registartion(UserRegistrationModal userRegistrationModal);
-
+        public UserEntity Registration(UserRegistrationModal userRegistrationModal);
         public string Login(UserLoginModal userLoginModal);
-
         public string ForgetPassword(string Email);
-
         public bool ResetLink(string email, string password, string confirmPassword);
-
-
-
     }
 }

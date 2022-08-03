@@ -25,7 +25,7 @@ namespace FundooNoteAPI.Controllers
         {
             try
             {
-                var result = iuserBL.Registartion(userRegistrationModal);
+                var result = iuserBL.Registration(userRegistrationModal);
                 if (result != null)
                 {
                     return Ok(new {success = true, message= "Registration successful", data = result});
@@ -74,11 +74,11 @@ namespace FundooNoteAPI.Controllers
                var result = iuserBL.ForgetPassword(Email);
                 if (result != null)
                 {
-                    return Ok(new { success = true, message = "Email sent successful" });
+                    return Ok(new { success = true, message = "Email sent successfully" });
                 }
                 else
                 {
-                    return BadRequest(new { success = false, message = "Reset email not sent unsuccessful" });
+                    return BadRequest(new { success = false, message = "Reset email not sent" });
 
                 }
             }
@@ -99,7 +99,7 @@ namespace FundooNoteAPI.Controllers
                 var result = iuserBL.ResetLink(Email, password, confirmPassword);
                 if (result != null)
                 {
-                    return Ok(new { success = true, message = "Reset Password Successful" });
+                    return Ok(new { success = true, message = "Reset Password Successfully" });
                 }
                 else
                 {

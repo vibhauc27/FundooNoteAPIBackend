@@ -11,5 +11,7 @@ namespace BussinessLayer.Interface
         public NotesEntity AddNotes(NotesModal notesModel, long userId);
         public IEnumerable<NotesEntity> ReadNotes(long userId);
         public bool DeleteNotes(long userId, long noteId);
+        public NotesEntity UpdateNote(NotesModal noteModal, long NoteId, long userId);
+
     }
 }

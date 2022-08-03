@@ -6,21 +6,19 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 
-namespace FundooNoteAPI.Controllers
+namespace FundooNoteApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class NotesController : ControllerBase
     {
-
         private readonly INotesBL iNotesBL;
 
         public NotesController(INotesBL iNotesBL)
         {
             this.iNotesBL = iNotesBL;
         }
-        
+        [Authorize]
         [HttpPost]
         [Route("CreateNote")]
         public IActionResult CreateNote(NotesModal noteData)
@@ -42,46 +40,41 @@ namespace FundooNoteAPI.Controllers
                 throw;
             }
         }
-
-        
-        [HttpGet]
-        [Route("ReadNote")]
+        [HttpPost]
+        [Route("ReadNotes")]
         public IActionResult ReadNotes()
         {
             try
             {
-                long userID = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userID").Value);
-                var result = iNotesBL.ReadNotes(userID);
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userID").Value);
+                var result = iNotesBL.ReadNotes(userId);
                 if (result != null)
                 {
-                    return Ok(new { success = true, message = "Able to read the notes.", data = result });
+                    return Ok(new { success = true, message = "Notes Received ", data = result });
                 }
-                else
-                {
-                    return BadRequest(new { success = false, message = "Unable to read the notes." });
-                }
+                return BadRequest(new { success = false, message = "Notes not Received" });
             }
             catch (System.Exception)
             {
+
                 throw;
             }
         }
-
         [HttpDelete]
         [Route("DeleteNote")]
         public IActionResult DeleteNotes(long NoteID)
         {
             try
             {
-                long userID = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userID").Value);
-                var result = iNotesBL.DeleteNotes(userID, NoteID);
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userID").Value);
+                var result = iNotesBL.DeleteNotes(userId, NoteID);
                 if (result != false)
                 {
                     return Ok(new { success = true, message = "Note Deleted." });
                 }
                 else
                 {
-                    return BadRequest(new { success = false, message = "Cannot delete note." });
+                    return BadRequest(new { success = false, message = "Cannot delete nNte." });
                 }
             }
             catch (System.Exception)
@@ -89,5 +82,29 @@ namespace FundooNoteAPI.Controllers
                 throw;
             }
         }
+
+        [HttpPut]
+        [Route("UpdateNote")]
+        public IActionResult UpdateNote(NotesModal noteModal, long NoteID)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userID").Value);
+                var result = iNotesBL.UpdateNote(noteModal, NoteID, userId);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Note Updated Successfully.", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Cannot update note." });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
     }
 }

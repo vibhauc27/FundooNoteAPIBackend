@@ -19,7 +19,7 @@ namespace BussinessLayer.Service
         }
 
 
-        public UserEntity Registartion(UserRegistrationModal userRegistrationModal)
+        public UserEntity Registration(UserRegistrationModal userRegistrationModal)
         {
             try
             {
@@ -30,6 +30,7 @@ namespace BussinessLayer.Service
                 throw;
             }
         }
+
         public string Login(UserLoginModal userLoginModal)
         {
             try
@@ -69,7 +70,6 @@ namespace BussinessLayer.Service
             }
         }
 
-
-
+       
     }
 }
