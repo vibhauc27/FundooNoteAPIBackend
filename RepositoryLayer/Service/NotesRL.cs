@@ -146,6 +146,33 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
+
+        public bool Archive(long NoteID, long userId)
+        {
+            try
+            {
+                var result = fundooContext.NotesTable.Where(x => x.UserId == userId && x.NoteID == NoteID).FirstOrDefault();
+
+                if (result.Archive == true)
+                {
+                    result.Archive = false;
+                    fundooContext.SaveChanges();
+                    return false;
+                }
+                else
+                {
+                    result.Archive = true;
+                    fundooContext.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
     }
 }
 

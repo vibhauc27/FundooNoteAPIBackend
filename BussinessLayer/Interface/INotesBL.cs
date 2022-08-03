@@ -14,5 +14,7 @@ namespace BussinessLayer.Interface
         public NotesEntity UpdateNote(NotesModal noteModal, long NoteId, long userId);
         public bool PinToDashboard(long NoteID, long userId);
 
+        public bool Archive(long NoteID, long userId);
+
     }
 }
