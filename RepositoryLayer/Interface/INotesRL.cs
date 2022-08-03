@@ -16,5 +16,6 @@ namespace RepositoryLayer.Interface
 
         public bool Archive(long NoteID, long userId);
         public bool Trash(long NoteID, long userId);
+        public NotesEntity Colour(long NoteID, string colour);
     }
 }

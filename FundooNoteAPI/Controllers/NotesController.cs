@@ -176,6 +176,27 @@ namespace FundooNoteApp.Controllers
                 throw;
             }
         }
+        [HttpPut]
+        [Route("Colour")]
+        public IActionResult Colour(long notesId, string colour)
+        {
+            try
+            {
+                var result = iNotesBL.Colour(notesId, colour);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Colour Changed", data = result });
+                }
+                else
+                {
+                    return NotFound(new { success = false, message = "Colour change Failed" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
     }
 }
