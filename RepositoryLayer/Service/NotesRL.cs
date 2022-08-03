@@ -121,7 +121,32 @@ namespace RepositoryLayer.Service
                     throw;
                 }
             }
+
+        public bool PinToDashboard(long NoteID, long userId)
+        {
+            try
+            {
+                var result = fundooContext.NotesTable.Where(x => x.UserId == userId && x.NoteID == NoteID).FirstOrDefault();
+
+                if (result.Pin == true)
+                {
+                    result.Pin = false;
+                    fundooContext.SaveChanges();
+                    return false;
+                }
+                else
+                {
+                    result.Pin = true;
+                    fundooContext.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
+    }
 }
 
 

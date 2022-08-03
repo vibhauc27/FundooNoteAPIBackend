@@ -106,5 +106,29 @@ namespace FundooNoteApp.Controllers
             }
         }
 
+        [HttpPut]
+        [Route("Pin")]
+        public IActionResult pinToDashboard(long NoteID)
+        {
+            try
+            {
+                long userID = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userID").Value);
+                var result = iNotesBL.PinToDashboard(NoteID, userID);
+                if (result == true)
+                {
+                    return Ok(new { success = true, message = "Note Pinned Successfully" });
+                }
+                else if (result == false)
+                {
+                    return Ok(new { success = true, message = "Note Unpinned successfully." });
+                }
+                return BadRequest(new { success = false, message = "Cannot perform operation." });
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
     }
 }

@@ -65,5 +65,17 @@ namespace BussinessLayer.Service
                 throw;
             }
         }
+
+        public bool PinToDashboard(long NoteID, long userId)
+        {
+            try
+            {
+                return iNotesRL.PinToDashboard(NoteID, userId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
