@@ -41,5 +41,25 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
+
+        public IEnumerable<CollaboratorEntity> GetCollab(long userID)
+        {
+            try
+            {
+                var result = fundooContext.CollaboratorTable.Where(x => x.UserId == userID);
+                if (result != null)
+                {
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

@@ -1,15 +1,19 @@
 ﻿using BussinessLayer.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
 
 namespace FundooNoteAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CollaboratorController : ControllerBase
+    [Authorize]
+    public class CollabsController : ControllerBase
     {
         private readonly ICollaboratorBL icollabBL;
-        public CollaboratorController(ICollaboratorBL icollabBL)
+        public CollabsController(ICollaboratorBL icollabBL)
         {
             this.icollabBL = icollabBL;
         }
@@ -26,7 +30,7 @@ namespace FundooNoteAPI.Controllers
                 }
                 else
                 {
-                    return BadRequest(new { success = false, message = "Collaborator not Created" });
+                    return BadRequest(new { success = false, message = "Can't create collaborator." });
                 }
             }
             catch (System.Exception)
@@ -34,5 +38,28 @@ namespace FundooNoteAPI.Controllers
                 throw;
             }
         }
+        [HttpGet]
+        [Route("Get")]
+        public IActionResult GetCollab()
+        {
+            try
+            {
+                long userID = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userID").Value);
+                var result = icollabBL.GetCollab(userID);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Able to get the collaborator.", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Unable to get the collaborator." });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
     }
 }
