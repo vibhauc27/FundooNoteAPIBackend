@@ -1,4 +1,8 @@
-﻿using CommonLayer.Modal;
+﻿using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using CommonLayer.Modal;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using RepositoryLayer.Context;
 using RepositoryLayer.Entity;
 using RepositoryLayer.Interface;
@@ -12,13 +16,14 @@ namespace RepositoryLayer.Service
         public class NotesRL : INotesRL
         {
             private readonly FundooContext fundooContext;
-            public NotesRL(FundooContext fundooContext)
+            private readonly IConfiguration configuration;
+            public NotesRL(FundooContext fundooContext, IConfiguration configuration)
             {
                 this.fundooContext = fundooContext;
+                this.configuration = configuration;
 
 
-
-            }
+        }
             public NotesEntity AddNotes(NotesModal notesModal, long userId)
             {
                 try
@@ -219,8 +224,42 @@ namespace RepositoryLayer.Service
 
         }
 
-    
-}
+        public string Image(IFormFile image, long noteID, long userID)
+        {
+            try
+            {
+                var result = fundooContext.NotesTable.Where(x => x.UserId == userID && x.NoteID == noteID).FirstOrDefault();
+                if (result != null)
+                {
+                    Account account = new Account(
+                       this.configuration["CloudinarySettings:CloudName"],
+                       this.configuration["CloudinarySettings:ApiKey"],
+                        this.configuration["CloudinarySettings:ApiSecret"]
+                        );
+                    Cloudinary cloudinary = new Cloudinary(account);
+                    var uploadParams = new ImageUploadParams()
+                    {
+                        File = new FileDescription(image.FileName, image.OpenReadStream()),
+                    };
+                    var uploadResult = cloudinary.Upload(uploadParams);
+                    string imagePath = uploadResult.Url.ToString();
+                    result.Image = imagePath;
+                    fundooContext.SaveChanges();
+                    return "Image uploaded successfully";
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        
+    }
 }
 
 
