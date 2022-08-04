@@ -38,5 +38,16 @@ namespace BussinessLayer.Service
                 throw;
             }
         }
+        public bool Delete(long userID)
+        {
+            try
+            {
+                return iCollabRL.Delete(userID);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

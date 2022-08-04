@@ -61,5 +61,27 @@ namespace FundooNoteAPI.Controllers
             }
         }
 
+        [HttpDelete]
+        [Route("Delete")]
+        public IActionResult Delete(long userID)
+        {
+            try
+            {
+                var result = icollabBL.Delete(userID);
+                if (result != false)
+                {
+                    return Ok(new { success = true, message = "Collaborator removed Successfully" });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Collaborator has not removed" });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
     }
 }
