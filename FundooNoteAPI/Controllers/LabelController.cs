@@ -63,5 +63,28 @@ namespace FundooNoteAPI.Controllers
             }
         }
 
+        [HttpDelete]
+        [Route("Delete")]
+        public IActionResult DeleteLabel(long LabelID)
+        {
+            try
+            {
+                var result = iLabelBL.DeleteLabel(LabelID);
+                if (result)
+                {
+                    return Ok(new { success = true, message = "Ladel deleted succesfully" });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "label has not deleted" });
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
     }
 }
