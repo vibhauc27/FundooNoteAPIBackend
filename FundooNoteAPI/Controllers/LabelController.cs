@@ -27,11 +27,11 @@ namespace FundooNoteAPI.Controllers
                 var result = iLabelBL.CreateLabel(Name, noteID, userID);
                 if (result)
                 {
-                    return Ok(new { success = true, message = "Label Created" });
+                    return Ok(new { success = true, message = "Label Created successfully" });
                 }
                 else
                 {
-                    return BadRequest(new { success = false, message = "Cannot create Label" });
+                    return BadRequest(new { success = false, message = "Label has not created" });
                 }
             }
             catch (System.Exception)
@@ -39,6 +39,29 @@ namespace FundooNoteAPI.Controllers
                 throw;
             }
         }
-       
+
+        [HttpGet]
+        [Route("Get")]
+        public IActionResult GetLabel(long LabelID)
+        {
+            try
+            {
+                var result = iLabelBL.GetLabel(LabelID);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Ablle to get the labels", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Unable to get the labels" });
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
     }
 }
