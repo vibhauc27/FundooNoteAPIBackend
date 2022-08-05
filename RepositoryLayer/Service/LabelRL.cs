@@ -1,0 +1,45 @@
+﻿using RepositoryLayer.Context;
+using RepositoryLayer.Entity;
+using RepositoryLayer.Interface;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace RepositoryLayer.Service
+{
+    public class LabelRL : ILabelRL
+    {
+        private readonly FundooContext fundooContext;
+        public LabelRL(FundooContext fundooContext)
+        {
+            this.fundooContext = fundooContext;
+        }
+        public bool CreateLabel(string name, long noteID, long userID)
+        {
+            try
+            {
+                var result = fundooContext.NotesTable.Where(x => x.NoteID == noteID).FirstOrDefault();
+                if (result != null)
+                {
+                    LabelEntity labelEntity = new LabelEntity();
+                    labelEntity.Name = name;
+                    labelEntity.NoteID = result.NoteID;
+                    labelEntity.UserId = result.UserId;
+                    fundooContext.LabelTable.Add(labelEntity);
+                    fundooContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+    }
+}
