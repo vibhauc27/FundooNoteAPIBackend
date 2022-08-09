@@ -33,7 +33,7 @@ namespace RepositoryLayer.Service
                 userEntity.FirstName = userRegistrationModal.FirstName;
                 userEntity.LastName = userRegistrationModal.LastName;
                 userEntity.Email = userRegistrationModal.Email;
-                userEntity.Password = userRegistrationModal.Password;
+                userEntity.Password = EncryptPassword(userRegistrationModal.Password);
 
                 fundooContext.UserTable.Add(userEntity);
                 int result = fundooContext.SaveChanges();
@@ -56,26 +56,16 @@ namespace RepositoryLayer.Service
         {
             try
             {
-                var LoginResult = fundooContext.UserTable.Where(user => user.Email == userLoginModal.Email && user.Password == userLoginModal.Password).FirstOrDefault();
-               
-                //UserEntity userEntity = new UserEntity();               
-                //userEntity.Email = userLoginModal.Email;
-               //userEntity.Password = userLoginModal.Password;
-
-                //fundooContext.UserTable.Add(userEntity);
-                //var result = fundooContext.SaveChanges();
-
-                if (LoginResult != null)
+                var LoginResult = this.fundooContext.UserTable.Where(user => user.Email == userLoginModal.Email).FirstOrDefault();
+                if (LoginResult != null && Decryption(LoginResult.Password) == userLoginModal.Password)
                 {
                     var token = GenerateSecurityToken(LoginResult.Email, LoginResult.UserId);
                     return token;
                 }
                 else
-                {
                     return null;
-                }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -148,5 +138,31 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
+
+        public string EncryptPassword(string password)
+        {
+            string Key = "secret@key#123ddsewrvFResd";
+            if (string.IsNullOrEmpty(password))
+            {
+                return "";
+            }
+            password += Key;
+            var passwordBytes = Encoding.UTF8.GetBytes(password);
+            return Convert.ToBase64String(passwordBytes);
+        }
+
+        public static string Decryption(string encryptedPass)
+        {
+            string Key = "secret@key#123ddsewrvFResd";
+            if (string.IsNullOrEmpty(encryptedPass))
+            {
+                return "";
+            }
+            var encodeBytes = Convert.FromBase64String(encryptedPass);
+            var result = Encoding.UTF8.GetString(encodeBytes);
+            result = result.Substring(0, result.Length - Key.Length);
+            return result;
+        }
     }
 }
+

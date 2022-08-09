@@ -44,19 +44,18 @@ namespace FundooNoteAPI.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public IActionResult LoginUser(UserLoginModal userLoginModal)
+        public IActionResult UserLogin(UserLoginModal userLoginModal)
         {
             try
             {
                 var result = iuserBL.Login(userLoginModal);
                 if (result != null)
                 {
-                    return Ok(new { success = true, message = "Login successful", data = result });
+                    return Ok(new { success = true, message = "Login Successful", data = result });
                 }
                 else
                 {
-                    return BadRequest(new { success = false, message = "Login unsuccessful" });
-
+                    return BadRequest(new { success = false, message = "Login Failed" });
                 }
             }
             catch (System.Exception)

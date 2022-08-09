@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Cr3xMpsu0WVBWtT9D42co9Vo3PuBewkNJMskULNfRhf6c0StPan8MaIKKnI9H7DzbmVwWi+Mcga5q/HZ5yO2nA==",
+  "dgSpecHash": "Z/YOKw+aymq9OuAr+lI2TRIAL93FQgd4UvAajiGQCzKwNgAGAsVJFeCAmp+JcRzUsYqzi4SU37PPNmEpq6ZksQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Vibha\\source\\repos\\FundooNoteAPI\\FundooNoteAPI\\FundooNoteAPI.csproj",
   "expectedPackageFiles": [
@@ -46,6 +46,9 @@
     "C:\\Users\\Vibha\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
     "C:\\Users\\Vibha\\.nuget\\packages\\microsoft.win32.registry\\4.5.0\\microsoft.win32.registry.4.5.0.nupkg.sha512",
     "C:\\Users\\Vibha\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\Vibha\\.nuget\\packages\\nlog\\5.0.1\\nlog.5.0.1.nupkg.sha512",
+    "C:\\Users\\Vibha\\.nuget\\packages\\nlog.extensions.logging\\5.0.1\\nlog.extensions.logging.5.0.1.nupkg.sha512",
+    "C:\\Users\\Vibha\\.nuget\\packages\\nlog.web.aspnetcore\\5.1.0\\nlog.web.aspnetcore.5.1.0.nupkg.sha512",
     "C:\\Users\\Vibha\\.nuget\\packages\\pipelines.sockets.unofficial\\2.0.17\\pipelines.sockets.unofficial.2.0.17.nupkg.sha512",
     "C:\\Users\\Vibha\\.nuget\\packages\\runtime.native.system\\4.3.0\\runtime.native.system.4.3.0.nupkg.sha512",
     "C:\\Users\\Vibha\\.nuget\\packages\\runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
